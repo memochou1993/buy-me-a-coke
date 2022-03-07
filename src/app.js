@@ -1,27 +1,30 @@
 const BASE_AMOUNT = 100;
 const MIN_COUNT = 1;
 const MAX_COUNT = 100;
+const GAS = 30000;
+const GAS_PRICE = 1500000000;
+const MY_ADDRESS = '0x31B98D14007bDEe637298086988A0bBd31184523';
 
 class Envoy {
-  avatar = document.getElementById('avatar');
-  username = document.getElementById('username');
-  rate = document.getElementById('rate');
-  minusButton = document.getElementById('minus');
-  countInput = document.getElementById('count');
-  plusButton = document.getElementById('plus');
-  donateButton = document.getElementById('donate');
-
-  currency = 'TWD';
-  rates = [];
-  count = 1;
-  value = 0;
-
   constructor() {
-    this.init();
-    this.minusButton.addEventListener('click', () => this.onMinusButtonClick());
+    this.avatar = document.getElementById('avatar');
+    this.username = document.getElementById('username');
+    this.rate = document.getElementById('rate');
+    this.countInput = document.getElementById('count');
+    this.minusButton = document.getElementById('minus');
+    this.plusButton = document.getElementById('plus');
+    this.donateButton = document.getElementById('donate');
+    this.currency = 'TWD';
+    this.rates = [];
+    this.count = 1;
+    this.value = 0;
+
     this.countInput.addEventListener('input', (e) => this.onCountInputChange(e));
+    this.minusButton.addEventListener('click', () => this.onMinusButtonClick());
     this.plusButton.addEventListener('click', () => this.onPlusButtonClick());
     this.donateButton.addEventListener('click', () => this.onDonateButtonClick());
+
+    this.init();
   }
 
   async init() {
@@ -31,13 +34,14 @@ class Envoy {
       this.avatar.alt = subject;
       this.username.textContent = subject;
     }
-    this.rates = await this.fetchRates();
+    this.rates = await this.constructor.fetchRates();
     this.calculate();
   }
 
   calculate() {
-    this.value = Math.round((BASE_AMOUNT * this.count / Number(this.rates[this.currency]) * Math.pow(10, 18)));
-    rate.textContent = `${(BASE_AMOUNT * this.count).toLocaleString()} ${this.currency} ≈ ${(this.value / Math.pow(10, 18)).toFixed(9)} ETH`;
+    const totalAmount = BASE_AMOUNT * this.count;
+    this.value = Math.round(((totalAmount / Number(this.rates[this.currency])) * 10 ** 18));
+    this.rate.textContent = `${totalAmount.toLocaleString()} ${this.currency} ≈ ${(this.value / 10 ** 18).toFixed(9)} ETH`;
   }
 
   reset() {
@@ -47,13 +51,31 @@ class Envoy {
     this.calculate();
   }
 
-  fetchRates() {
+  static fetchRates() {
     return new Promise((resolve, reject) => {
       fetch('https://api.coinbase.com/v2/exchange-rates?currency=ETH')
-      .then((r) => r.json())
-      .then(({ data }) => resolve(data.rates))
-      .catch((err) => reject(err));
+        .then((r) => r.json())
+        .then(({ data }) => resolve(data.rates))
+        .catch((err) => reject(err));
     });
+  }
+
+  onCountInputChange(e) {
+    const count = Number(e.target.value);
+    if (count > MAX_COUNT) {
+      this.countInput.value = MAX_COUNT;
+      this.count = MAX_COUNT;
+      this.calculate();
+      return;
+    }
+    if (count < MIN_COUNT) {
+      this.countInput.value = MIN_COUNT;
+      this.count = MIN_COUNT;
+      this.calculate();
+      return;
+    }
+    this.count = count;
+    this.calculate();
   }
 
   onMinusButtonClick() {
@@ -62,20 +84,6 @@ class Envoy {
       this.countInput.value = this.count;
       this.calculate();
     }
-  }
-
-  onCountInputChange(e) {
-    const count = Number(e.target.value);
-    if (count > MAX_COUNT) {
-      this.countInput.value = MAX_COUNT;
-      return;
-    }
-    if (count < MIN_COUNT) {
-      this.countInput.value = MIN_COUNT;
-      return;
-    }
-    this.count = count;
-    this.calculate();
   }
 
   onPlusButtonClick() {
@@ -87,19 +95,18 @@ class Envoy {
   }
 
   async onDonateButtonClick() {
-    const [from] = await ethereum.request({
+    const [from] = await window.ethereum.request({
       method: 'eth_requestAccounts',
     });
-    const to = '0x31B98D14007bDEe637298086988A0bBd31184523';
     try {
-      const txHash = await ethereum.request({
+      const txHash = await window.ethereum.request({
         method: 'eth_sendTransaction',
         params: [
           {
             from,
-            to,
-            gas: (30000).toString(16),
-            gasPrice: (1500000000).toString(16),
+            to: MY_ADDRESS,
+            gas: GAS.toString(16),
+            gasPrice: GAS_PRICE.toString(16),
             value: this.value.toString(16),
           },
         ],
@@ -112,6 +119,8 @@ class Envoy {
   }
 }
 
-if (typeof window.ethereum !== 'undefined') {
-  new Envoy();
+if (!window.ethereum) {
+  console.log('MetaMask is not installed.');
 }
+
+window.onload = () => new Envoy();

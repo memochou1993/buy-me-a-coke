@@ -1,0 +1,29 @@
+{
+  "name": "envoy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "assets/index.js",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.3"
+  },
+  "scripts": {
+    "lint": "eslint src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/memochou1993/envoy.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/memochou1993/envoy/issues"
+  },
+  "homepage": "https://github.com/memochou1993/envoy#readme"
+}
