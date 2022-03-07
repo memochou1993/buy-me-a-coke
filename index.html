@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-screen" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css"></link>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css"></link>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <button class="btn btn-gradient">Donate</button>
-    <script src="app.js"></script>
+<body class="h-screen flex items-center dark:bg-slate-800 ">
+  <div class="container mx-auto">
+    <div class="flex justify-center">
+      <figure class="bg-slate-200 text-slate-600 rounded-xl px-12 py-12">
+        <img class="w-36 h-36 rounded-full mx-auto" src="https://github.com/memochou1993.png" alt="memochou1993">
+        <div class="flex justify-center">
+          <div class="py-12">
+            Buy <span class="text-slate-800 font-medium">memochou1993</span> a Beer
+          </div>
+        </div>
+        <div class="flex justify-center">
+          <button class="btn btn-gradient">Donate</button>
+        </div>
+      </figure>
+    </div>
+  </div>
+  <script src="app.js"></script>
 </body>
 </html>
