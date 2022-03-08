@@ -10,6 +10,7 @@ class Envoy {
     this.avatar = document.getElementById('avatar');
     this.username = document.getElementById('username');
     this.rate = document.getElementById('rate');
+    this.message = document.getElementById('message');
     this.countInput = document.getElementById('count');
     this.minusButton = document.getElementById('minus');
     this.plusButton = document.getElementById('plus');
@@ -28,6 +29,9 @@ class Envoy {
   }
 
   async init() {
+    if (!window.ethereum) {
+      this.message.innerHTML = '<a target="_blank" href="https://metamask.io/download/" rel="noopener noreferrer">MetaMask</a> is not installed.';
+    }
     if (window.location.host.includes('.github.io')) {
       const subject = window.location.host.replace('.github.io', '');
       this.avatar.src = `https://github.com/${subject}.png`;
@@ -95,10 +99,10 @@ class Envoy {
   }
 
   async onDonateButtonClick() {
-    const [from] = await window.ethereum.request({
-      method: 'eth_requestAccounts',
-    });
     try {
+      const [from] = await window.ethereum.request({
+        method: 'eth_requestAccounts',
+      });
       const txHash = await window.ethereum.request({
         method: 'eth_sendTransaction',
         params: [
@@ -112,15 +116,11 @@ class Envoy {
         ],
       });
       this.reset();
-      console.log(txHash);
+      this.message.innerHTML = `Transaction Hash: <a target="_blank" href="https://rinkeby.etherscan.io/tx/${txHash}" rel="noopener noreferrer">${txHash.substring(0, 5)}...${txHash.substring(txHash.length - 4)}</a>`;
     } catch (err) {
-      console.log(err);
+      this.message.textContent = err.message;
     }
   }
-}
-
-if (!window.ethereum) {
-  console.log('MetaMask is not installed.');
 }
 
 window.onload = () => new Envoy();
