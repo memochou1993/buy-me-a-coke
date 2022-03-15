@@ -1,5 +1,5 @@
 {
-  "name": "envoy",
+  "name": "donate-eth",
   "version": "1.0.0",
   "description": "",
   "dependencies": {},
@@ -12,19 +12,9 @@
     "tailwindcss": "^3.0.23"
   },
   "scripts": {
-    "lint": "eslint src",
-    "watch": "tailwindcss -i ./src/tailwind.css -o ./dist/tailwind.css --watch",
-    "build": "tailwindcss -i ./src/tailwind.css -o ./dist/tailwind.css --minify",
+    "lint": "eslint public",
+    "watch": "tailwindcss -i public/style.css -o public/style.min.css --watch",
+    "build": "tailwindcss -i public/style.css -o public/style.min.css --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/memochou1993/envoy.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/memochou1993/envoy/issues"
-  },
-  "homepage": "https://github.com/memochou1993/envoy#readme"
+  }
 }
