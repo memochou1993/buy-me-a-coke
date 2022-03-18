@@ -1,10 +1,10 @@
-# send-eth
+# donate-eth
 
-<p><a href="https://memochou1993.github.io/send-eth/" target="_blank" rel="noopener noreferrer"><img width="100" src="https://img.shields.io/badge/send-ETH-blue" alt="Send ETH"></a></p>
+<p><a href="https://memochou1993.github.io/donate-eth/" target="_blank" rel="noopener noreferrer"><img width="100" src="https://img.shields.io/badge/donate-ETH-blue" alt="Send ETH"></a></p>
 
 ## Quick Start
 
-1. Fork this repository.
+1. Fork [send-eth](https://github.com/memochou1993/donate-eth) repository.
 
 2. Change `MY_ADDRESS` constant to your address in `src/app.js`.
 
@@ -12,6 +12,6 @@
 
 ## Contributors
 
-<a href="https://github.com/memochou1993/send-eth/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=memochou1993/send-eth" />
+<a href="https://github.com/memochou1993/donate-eth/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=memochou1993/donate-eth" />
 </a>
