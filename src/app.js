@@ -1,11 +1,12 @@
+const MY_ADDRESS = '0xCD6d8DE0B5DA0D60F853e8530BdAa2945DD8AdB4';
+const CURRENCY = 'TWD';
 const BASE_AMOUNT = 100;
 const MIN_COUNT = 1;
 const MAX_COUNT = 100;
 const GAS = 30000;
 const GAS_PRICE = 1500000000;
-const MY_ADDRESS = '0x31B98D14007bDEe637298086988A0bBd31184523';
 
-class Envoy {
+class App {
   constructor() {
     this.avatar = document.getElementById('avatar');
     this.username = document.getElementById('username');
@@ -14,8 +15,7 @@ class Envoy {
     this.countInput = document.getElementById('count');
     this.minusButton = document.getElementById('minus');
     this.plusButton = document.getElementById('plus');
-    this.donateButton = document.getElementById('donate');
-    this.currency = 'TWD';
+    this.sendButton = document.getElementById('send');
     this.rates = [];
     this.count = 1;
     this.value = 0;
@@ -23,7 +23,7 @@ class Envoy {
     this.countInput.addEventListener('input', (e) => this.onCountInputChange(e));
     this.minusButton.addEventListener('click', () => this.onMinusButtonClick());
     this.plusButton.addEventListener('click', () => this.onPlusButtonClick());
-    this.donateButton.addEventListener('click', () => this.onDonateButtonClick());
+    this.sendButton.addEventListener('click', () => this.onSendButtonClick());
 
     this.init();
   }
@@ -44,8 +44,8 @@ class Envoy {
 
   calculate() {
     const totalAmount = BASE_AMOUNT * this.count;
-    this.value = Math.round(((totalAmount / Number(this.rates[this.currency])) * 10 ** 18));
-    this.rate.textContent = `${totalAmount.toLocaleString()} ${this.currency} ≈ ${(this.value / 10 ** 18).toFixed(9)} ETH`;
+    this.value = Math.round(((totalAmount / Number(this.rates[CURRENCY])) * 10 ** 18));
+    this.rate.textContent = `${totalAmount.toLocaleString()} ${CURRENCY} ≈ ${(this.value / 10 ** 18).toFixed(9)} ETH`;
   }
 
   reset() {
@@ -98,7 +98,7 @@ class Envoy {
     }
   }
 
-  async onDonateButtonClick() {
+  async onSendButtonClick() {
     try {
       const [from] = await window.ethereum.request({
         method: 'eth_requestAccounts',
@@ -123,4 +123,4 @@ class Envoy {
   }
 }
 
-window.onload = () => new Envoy();
+window.onload = () => new App();
