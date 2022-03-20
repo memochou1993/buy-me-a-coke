@@ -4,7 +4,7 @@
 
 ## Quick Start
 
-1. Fork [send-eth](https://github.com/memochou1993/donate-eth) repository.
+1. Fork this repository.
 
 2. Change `MY_ADDRESS` constant to your address in `src/app.js`.
 
